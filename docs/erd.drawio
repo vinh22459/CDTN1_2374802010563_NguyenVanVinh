@@ -1,0 +1,34 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="LrFwcTgi4BL2-5CsUWpo">
+    <mxGraphModel dx="2071" dy="1317" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-5" edge="1" parent="1" source="BXC8w39ZxIUBP0WV28_p-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="BXC8w39ZxIUBP0WV28_p-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-7" edge="1" parent="1" source="BXC8w39ZxIUBP0WV28_p-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="BXC8w39ZxIUBP0WV28_p-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;br&gt;Customer:&lt;br&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;CustomerID&lt;/code&gt; (PK) - Varchar&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;FullName&lt;/code&gt; - Varchar&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;Phone&lt;/code&gt; - Varchar (10 số)&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;Address&lt;/code&gt; - Varchar&lt;/p&gt;&lt;/li&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="180" x="610" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-9" edge="1" parent="1" source="BXC8w39ZxIUBP0WV28_p-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="BXC8w39ZxIUBP0WV28_p-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="&lt;br&gt;Staff:&lt;br&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;StaffID&lt;/code&gt; (PK) - Varchar&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;FullName&lt;/code&gt; - Varchar&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p style=&quot;&quot;&gt;&lt;code&gt;Role&lt;/code&gt; - Varchar&lt;/p&gt;&lt;/li&gt;" vertex="1">
+          <mxGeometry height="130" width="180" x="610" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;br&gt;WarrantyTicket:&lt;br&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;TicketID&lt;/code&gt; (PK) - Varchar&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;CustomerID&lt;/code&gt; (&lt;b&gt;FK&lt;/b&gt;) - Varchar &lt;i&gt;(Liên kết sang bảng Customer)&lt;/i&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;DeviceID&lt;/code&gt; (&lt;b&gt;FK&lt;/b&gt;) - Varchar &lt;i&gt;(Liên kết sang bảng Device)&lt;/i&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;StaffID&lt;/code&gt; (&lt;b&gt;FK&lt;/b&gt;) - Varchar &lt;i&gt;(Liên kết sang bảng Staff)&lt;/i&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;IssueDescription&lt;/code&gt; - Text&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;Category&lt;/code&gt; - Enum (HARDWARE, SOFTWARE, COSMETIC)&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;Priority&lt;/code&gt; - Enum (LOW, NORMAL, HIGH)&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;Status&lt;/code&gt; - Enum (PENDING, PROCESSING, COMPLETED)&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;SLADueDate&lt;/code&gt; - DateTime&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;code&gt;CreatedAt&lt;/code&gt; - DateTime&lt;/p&gt;&lt;/li&gt;" vertex="1">
+          <mxGeometry height="300" width="510" x="445" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-8" edge="1" parent="1" source="BXC8w39ZxIUBP0WV28_p-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="BXC8w39ZxIUBP0WV28_p-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BXC8w39ZxIUBP0WV28_p-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Device:&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;&lt;ul&gt;&lt;li&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;DeviceID&lt;/code&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; (PK) - Varchar&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;CustomerID&lt;/code&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; (&lt;/span&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;FK&lt;/b&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;) - Varchar &lt;/span&gt;&lt;i style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(Liên kết sang bảng Customer)&lt;/i&gt;&lt;/li&gt;&lt;li&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;DeviceName&lt;/code&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; - Varchar&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;code style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;SerialNumber&lt;/code&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt; - Varchar&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;" vertex="1">
+          <mxGeometry height="190" width="240" x="990" y="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
