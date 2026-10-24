@@ -1,0 +1,112 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="cg-Rv-Sq4yF3pAkjkQ0g">
+    <mxGraphModel dx="1793" dy="1140" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1769AA;strokeWidth=2;fontStyle=1;fontSize=16;verticalAlign=top;spacingTop=12;" value="MÀN HÌNH 1: TRA CỨU KHÁCH HÀNG" vertex="1">
+          <mxGeometry height="850" width="550" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s1nav" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF3FC;strokeColor=#B7CDE3;align=left;spacingLeft=15;fontSize=14;" value="Tra cứu khách hàng&lt;br&gt;Tạo phiếu bảo hành&lt;br&gt;Danh sách phiếu&lt;br&gt;Cài đặt" vertex="1">
+          <mxGeometry height="745" width="145" x="40" y="72.5" as="geometry" />
+        </mxCell>
+        <mxCell id="s1title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=18;" value="Tra cứu thông tin khách hàng" vertex="1">
+          <mxGeometry height="35" width="350" x="185" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="s1label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=14;" value="Số điện thoại" vertex="1">
+          <mxGeometry height="25" width="150" x="185" y="175" as="geometry" />
+        </mxCell>
+        <mxCell id="s1phone" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#AABFD4;align=left;spacingLeft=10;fontSize=13;" value="Nhập số điện thoại..." vertex="1">
+          <mxGeometry height="40" width="220" x="185" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="s1search" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2F80ED;strokeColor=#2F80ED;fontColor=#FFFFFF;fontStyle=1;" value="Tìm kiếm" vertex="1">
+          <mxGeometry height="40" width="110" x="415" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="s1result" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;align=left;spacingLeft=15;spacingTop=10;fontSize=14;" value="KẾT QUẢ KHÁCH HÀNG&lt;br&gt;&lt;br&gt;Họ tên: Nguyễn Văn A&lt;br&gt;Số điện thoại: 0901234567&lt;br&gt;Email: nguyenvana@gmail.com&lt;br&gt;Địa chỉ: 123 Nguyễn Văn Cừ, Q.1, TP.HCM&lt;br&gt;Tổng số phiếu bảo hành: 3" vertex="1">
+          <mxGeometry height="220" width="350" x="185" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s1historytitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;" value="Lịch sử phiếu bảo hành gần đây" vertex="1">
+          <mxGeometry height="30" width="350" x="185" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="s1history" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B7CDE3;align=left;spacingLeft=8;spacingTop=10;fontSize=12;" value="Mã phiếu | Thiết bị | Ngày tạo | Trạng thái&lt;br&gt;BH-00123 | iPhone 13 | 10/09/2025 | Đang xử lý&lt;br&gt;BH-00122 | Laptop Dell | 05/08/2025 | Hoàn thành&lt;br&gt;BH-00115 | Tai nghe Sony | 20/07/2025 | Đã đóng" vertex="1">
+          <mxGeometry height="160" width="350" x="185" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1769AA;strokeWidth=2;fontStyle=1;fontSize=16;verticalAlign=top;spacingTop=12;" value="MÀN HÌNH 2: TẠO PHIẾU BẢO HÀNH" vertex="1">
+          <mxGeometry height="850" width="550" x="620" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s2nav" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF3FC;strokeColor=#B7CDE3;align=left;spacingLeft=15;fontSize=14;" value="Tra cứu khách hàng&lt;br&gt;Tạo phiếu bảo hành&lt;br&gt;Danh sách phiếu&lt;br&gt;Cài đặt" vertex="1">
+          <mxGeometry height="745" width="145" x="640" y="72.5" as="geometry" />
+        </mxCell>
+        <mxCell id="s2title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=18;" value="Tạo phiếu bảo hành mới" vertex="1">
+          <mxGeometry height="35" width="350" x="785" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="s2customer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFA;strokeColor=#AABFD4;align=left;spacingLeft=10;fontStyle=1;" value="1. THÔNG TIN KHÁCH HÀNG" vertex="1">
+          <mxGeometry height="35" width="350" x="785" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="s2phone" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;align=left;spacingLeft=10;spacingTop=8;fontSize=13;" value="Số điện thoại: 0901234567&lt;br&gt;Họ tên: Nguyễn Văn A" vertex="1">
+          <mxGeometry height="65" width="350" x="785" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="s2device" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFA;strokeColor=#AABFD4;align=left;spacingLeft=10;fontStyle=1;" value="2. THÔNG TIN THIẾT BỊ" vertex="1">
+          <mxGeometry height="35" width="350" x="785" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="s2devicefields" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;align=left;spacingLeft=10;spacingTop=8;fontSize=13;" value="Loại thiết bị: [Điện thoại ▼]&lt;br&gt;Hãng: [Apple ▼]&lt;br&gt;Model: [iPhone 13 ▼]&lt;br&gt;Số serial: [Nhập số serial...]" vertex="1">
+          <mxGeometry height="130" width="350" x="785" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="s2fault" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCEBFA;strokeColor=#AABFD4;align=left;spacingLeft=10;fontStyle=1;" value="3. MÔ TẢ LỖI" vertex="1">
+          <mxGeometry height="35" width="350" x="785" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="s2faultfield" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B7CDE3;align=left;verticalAlign=top;spacing=10;fontSize=13;" value="Mô tả chi tiết lỗi của thiết bị..." vertex="1">
+          <mxGeometry height="90" width="350" x="785" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="s2priority" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;align=left;spacingLeft=10;spacingTop=8;fontSize=14;" value="4. MỨC ĐỘ ƯU TIÊN&lt;br&gt;&lt;br&gt;○ Thấp      ● Trung bình&lt;br&gt;○ Cao        ○ Khẩn cấp" vertex="1">
+          <mxGeometry height="90" width="350" x="785" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="s2cancel" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#AABFD4;fontStyle=1;" value="Hủy" vertex="1">
+          <mxGeometry height="40" width="120" x="785" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="s2submit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2F80ED;strokeColor=#2F80ED;fontColor=#FFFFFF;fontStyle=1;" value="TẠO PHIẾU" vertex="1">
+          <mxGeometry height="40" width="220" x="915" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1769AA;strokeWidth=2;fontStyle=1;fontSize=16;verticalAlign=top;spacingTop=12;" value="MÀN HÌNH 3: DANH SÁCH PHIẾU" vertex="1">
+          <mxGeometry height="850" width="550" x="1220" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="s3nav" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF3FC;strokeColor=#B7CDE3;align=left;spacingLeft=15;fontSize=14;" value="Tra cứu khách hàng&lt;br&gt;Tạo phiếu bảo hành&lt;br&gt;Danh sách phiếu&lt;br&gt;Cài đặt" vertex="1">
+          <mxGeometry height="745" width="145" x="1240" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="s3title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=18;" value="Danh sách phiếu bảo hành" vertex="1">
+          <mxGeometry height="35" width="350" x="1385" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="s3search" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#AABFD4;align=left;spacingLeft=10;fontSize=12;" value="Tìm theo mã phiếu, tên khách hàng..." vertex="1">
+          <mxGeometry height="40" width="350" x="1385" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="s3filter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;align=left;spacingLeft=10;spacingTop=5;fontSize=12;" value="Trạng thái: [Tất cả ▼]&lt;br&gt;Mức ưu tiên: [Tất cả ▼]" vertex="1">
+          <mxGeometry height="65" width="350" x="1385" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="s3tablehead" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DCEBFA;strokeColor=#AABFD4;fontStyle=1;fontSize=11;" value="Mã phiếu | Khách hàng | Thiết bị | Trạng thái | Ưu tiên" vertex="1">
+          <mxGeometry height="45" width="350" x="1385" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="s3row1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B7CDE3;fontSize=11;" value="BH-00123 | Nguyễn Văn A | iPhone 13&lt;br&gt;Đang xử lý | Trung bình" vertex="1">
+          <mxGeometry height="55" width="350" x="1385" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="s3row2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;fontSize=11;" value="BH-00124 | Trần Thị B | Laptop Dell&lt;br&gt;Đang xử lý | Cao" vertex="1">
+          <mxGeometry height="55" width="350" x="1385" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="s3row3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B7CDE3;fontSize=11;" value="BH-00125 | Lê Văn C | Samsung S23&lt;br&gt;Chờ duyệt | Trung bình" vertex="1">
+          <mxGeometry height="55" width="350" x="1385" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="s3row4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#B7CDE3;fontSize=11;" value="BH-00126 | Phạm Thị D | Tai nghe Sony&lt;br&gt;Hoàn thành | Thấp" vertex="1">
+          <mxGeometry height="55" width="350" x="1385" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="s3row5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B7CDE3;fontSize=11;" value="BH-00127 | Hoàng Văn E | iPad&lt;br&gt;Chờ duyệt | Cao" vertex="1">
+          <mxGeometry height="55" width="350" x="1385" y="565" as="geometry" />
+        </mxCell>
+        <mxCell id="s3count" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=12;" value="Hiển thị 1-10 / 32 phiếu" vertex="1">
+          <mxGeometry height="25" width="200" x="1385" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="s3pages" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF3FC;strokeColor=#AABFD4;fontSize=12;" value="[ &lt; ]    [1]    [2]    [3]    [4]    [ &gt; ]" vertex="1">
+          <mxGeometry height="35" width="300" x="1385" y="670" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

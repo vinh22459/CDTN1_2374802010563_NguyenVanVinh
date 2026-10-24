@@ -1,0 +1,33 @@
+{
+  "name": "cdtn1_2374802010563_nguyenvanvinh",
+  "version": "1.0.0",
+  "description": "Chuyen de tot nghiep 1 - Luong L2: Tiep nhan va phan loai yeu cau bao hanh",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinh22459/CDTN1_2374802010563_NguyenVanVinh.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vinh22459/CDTN1_2374802010563_NguyenVanVinh/issues"
+  },
+  "homepage": "https://github.com/vinh22459/CDTN1_2374802010563_NguyenVanVinh#readme",
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "mongoose": "^9.11.2",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
