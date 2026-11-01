@@ -1,138 +1,23 @@
 const express = require('express');
+const ticketRoutes = require('./routes/ticketRoutes');
+const ticketService = require('./services/ticketService');
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Dữ liệu mẫu giả lập đã được đổi mã phiếu mới & thêm khách hàng Võ Hoàng Phi Lân
-let tickets = [
-  {
-    id: 1,
-    ticket_code: 'TKT-20261024-PL01',
-    customer_name: 'Võ Hoàng Phi Lân',
-    phone: '0903999888',
-    device_info: 'iPhone 15 Pro Max 256GB - Natural Titanium',
-    issue_type: 'Lỗi phần cứng',
-    description: 'Máy bị vỡ mặt kính lưng sau, cụm camera sau bị mờ khi zoom',
-    priority: 'Cao',
-    status: 'Đang xử lý',
-    sla_deadline: '18:00 25/10/2026',
-    created_at: '2026-10-24 08:15'
-  },
-  {
-    id: 2,
-    ticket_code: 'TKT-20261024-LT02',
-    customer_name: 'Lê Văn Thuận',
-    phone: '0909123456',
-    device_info: 'MacBook Pro M2 14 inch 2023 - Gray',
-    issue_type: 'Lỗi phần cứng',
-    description: 'Bàn phím bị kẹt phím Space, màn hình chớp tắt chập chờn',
-    priority: 'Cao',
-    status: 'Mới tiếp nhận',
-    sla_deadline: '17:30 25/10/2026',
-    created_at: '2026-10-24 09:30'
-  },
-  {
-    id: 3,
-    ticket_code: 'TKT-20261024-HT03',
-    customer_name: 'Huỳnh Minh Trí',
-    phone: '0987654321',
-    device_info: 'Samsung Galaxy Z Fold 5 512GB',
-    issue_type: 'Lỗi phần cứng',
-    description: 'Màn hình gập bên trong xuất hiện sọc đen dọc nếp gấp',
-    priority: 'Cao',
-    status: 'Mới tiếp nhận',
-    sla_deadline: '12:00 26/10/2026',
-    created_at: '2026-10-24 10:45'
-  },
-  {
-    id: 4,
-    ticket_code: 'TKT-20261024-NH04',
-    customer_name: 'Nguyễn Thái Hoành',
-    phone: '0918273645',
-    device_info: 'iPad Pro 11 inch M1 - WiFi 128GB',
-    issue_type: 'Lỗi phần mềm',
-    description: 'Treo Táo khi cập nhật hệ điều hành iPadOS',
-    priority: 'Thường',
-    status: 'Đang xử lý',
-    sla_deadline: '15:00 26/10/2026',
-    created_at: '2026-10-24 11:20'
-  },
-  {
-    id: 5,
-    ticket_code: 'TKT-20261023-PL05',
-    customer_name: 'Võ Hoàng Phi Lân',
-    phone: '0903999888',
-    device_info: 'Apple Watch Series 9 45mm GPS',
-    issue_type: 'Bảo hành định kỳ',
-    description: 'Thay pin mới chính hãng và kiểm tra khả năng kháng nước',
-    priority: 'Thường',
-    status: 'Hoàn thành',
-    sla_deadline: '16:00 24/10/2026',
-    created_at: '2026-10-23 14:00'
+app.use('/api/tickets', ticketRoutes);
+
+app.get('/api/dashboard', async (req, res) => {
+  try {
+    const { stats, recentTickets } = await ticketService.getDashboardData();
+    res.status(200).json({ success: true, stats, recentTickets });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
-];
-
-// --- APIs ---
-
-// API 1: Lấy số liệu cho Dashboard
-app.get('/api/dashboard', (req, res) => {
-  const stats = {
-    total: tickets.length,
-    new: tickets.filter(t => t.status === 'Mới tiếp nhận').length,
-    in_progress: tickets.filter(t => t.status === 'Đang xử lý').length,
-    high_priority: tickets.filter(t => t.priority === 'Cao').length
-  };
-  res.json({ success: true, stats, recentTickets: tickets });
 });
 
-// API 2: Lấy toàn bộ phiếu bảo hành
-app.get('/api/tickets', (req, res) => {
-  res.json({ success: true, data: tickets });
-});
-
-// API 3: Cập nhật trạng thái phiếu bảo hành
-app.patch('/api/tickets/:id', (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
-  const ticket = tickets.find(t => t.id == id);
-  if (ticket) {
-    ticket.status = status;
-    return res.json({ success: true, data: ticket });
-  }
-  res.status(404).json({ success: false, message: 'Không tìm thấy phiếu' });
-});
-
-// API 4: Tạo phiếu mới
-app.post('/api/tickets', (req, res) => {
-  const { customer_name, phone, device_info, issue_type, description, priority } = req.body;
-  
-  if (!customer_name || !phone || !device_info || !issue_type) {
-    return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ các thông tin bắt buộc!' });
-  }
-
-  const timestamp = Date.now().toString().slice(-4);
-  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  
-  const newTicket = {
-    id: tickets.length + 1,
-    ticket_code: `TKT-${dateStr}-NEW${timestamp}`,
-    customer_name,
-    phone,
-    device_info,
-    issue_type,
-    description: description || 'Không có ghi chú thêm',
-    priority: priority || 'Thường',
-    status: 'Mới tiếp nhận',
-    sla_deadline: '18:00 26/10/2026',
-    created_at: new Date().toLocaleString('vi-VN')
-  };
-
-  tickets.unshift(newTicket);
-  res.status(201).json({ success: true, data: newTicket });
-});
-
-// --- Giao diện Web (HTML / CSS / JS) ---
 app.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -144,73 +29,57 @@ app.get('/', (req, res) => {
       <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0f19; color: #e2e8f0; display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar Navigation */
         .sidebar { width: 250px; background-color: #111827; border-right: 1px solid #1f2937; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .logo { color: #3b82f6; font-weight: bold; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .menu-category { font-size: 11px; color: #6b7280; font-weight: bold; text-transform: uppercase; margin: 10px 0 5px 10px; }
         .menu-item { color: #9ca3af; padding: 12px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
         .menu-item.active, .menu-item:hover { background-color: #1e293b; color: #ffffff; }
-
-        /* Main Container */
         .main { flex: 1; padding: 30px; overflow-y: auto; }
         .page { display: none; }
         .page.active { display: block; }
-
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .title { font-size: 24px; font-weight: bold; color: #ffffff; }
         .subtitle { font-size: 12px; color: #6b7280; }
-        
         .btn-primary { background-color: #2563eb; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-primary:hover { background-color: #1d4ed8; }
-
-        /* Stats Cards */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
         .card { background-color: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 20px; position: relative; }
         .card-title { font-size: 13px; color: #9ca3af; margin-bottom: 10px; }
         .card-value { font-size: 28px; font-weight: bold; color: #ffffff; margin-bottom: 5px; }
         .card-sub { font-size: 12px; color: #6b7280; }
         .badge-live { position: absolute; top: 15px; right: 15px; font-size: 10px; color: #10b981; }
-
-        /* Tables & Filters */
         .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; }
-        .filter-bar input, .filter-bar select {
-          background-color: #111827; border: 1px solid #1f2937; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 13px; outline: none;
-        }
+        .filter-bar input, .filter-bar select { background-color: #111827; border: 1px solid #1f2937; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 13px; outline: none; }
         .filter-bar input { flex: 1; }
-
         .table-container { background-color: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 20px; }
         .table-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #f3f4f6; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
         th { color: #6b7280; padding: 12px; border-bottom: 1px solid #1f2937; font-weight: 600; text-transform: uppercase; font-size: 11px; }
         td { padding: 14px 12px; border-bottom: 1px solid #1f2937; color: #d1d5db; }
-        
         .tag { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .tag-high { background-color: #7f1d1d; color: #f87171; }
         .tag-normal { background-color: #1e293b; color: #9ca3af; }
         .tag-status-process { background-color: #78350f; color: #fbbf24; }
         .tag-status-new { background-color: #1e3a8a; color: #60a5fa; }
         .tag-status-done { background-color: #064e3b; color: #34d399; }
-
         .select-status { background: #1f2937; color: #fff; border: 1px solid #374151; border-radius: 4px; padding: 4px; font-size: 12px; }
-
-        /* Form Tiếp nhận yêu cầu */
         .form-container { background-color: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 24px; max-width: 800px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .form-group { display: flex; flex-direction: column; gap: 8px; }
         .form-group.full-width { grid-column: span 2; }
         .form-group label { font-size: 13px; color: #9ca3af; font-weight: 600; }
-        .form-group input, .form-group select, .form-group textarea {
-          background-color: #1f2937; border: 1px solid #374151; color: #ffffff; padding: 12px; border-radius: 6px; font-size: 14px; outline: none;
-        }
+        .form-group input, .form-group select, .form-group textarea { background-color: #1f2937; border: 1px solid #374151; color: #ffffff; padding: 12px; border-radius: 6px; font-size: 14px; outline: none; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #2563eb; }
         .form-actions { display: flex; justify-content: flex-end; gap: 12px; }
         .btn-secondary { background: transparent; color: #9ca3af; border: 1px solid #374151; padding: 10px 18px; border-radius: 6px; cursor: pointer; }
+        .alert-box { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 13px; display: none; }
+        .alert-error { background-color: #7f1d1d; color: #fecaca; border: 1px solid #ef4444; }
+        .alert-success { background-color: #064e3b; color: #a7f3d0; border: 1px solid #10b981; }
+        .retry-btn { background-color: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 8px; }
+        .retry-btn:hover { background-color: #b91c1c; }
       </style>
     </head>
     <body>
-
-      <!-- Sidebar Left -->
       <div class="sidebar">
         <div class="logo">🛡️ Mekong Mobile</div>
         <div class="menu-category">Không gian làm việc</div>
@@ -219,9 +88,7 @@ app.get('/', (req, res) => {
         <a class="menu-item" id="menu-create" onclick="switchTab('create')">📝 Tiếp nhận yêu cầu</a>
       </div>
 
-      <!-- Main Content -->
       <div class="main">
-        
         <!-- PAGE 1: TỔNG QUAN -->
         <div id="page-overview" class="page active">
           <div class="header">
@@ -277,7 +144,7 @@ app.get('/', (req, res) => {
           </div>
         </div>
 
-        <!-- PAGE 2: PHIẾU BẢO HÀNH (DANH SÁCH CHI TIẾT & BỘ LỌC) -->
+        <!-- PAGE 2: PHIẾU BẢO HÀNH -->
         <div id="page-tickets" class="page">
           <div class="header">
             <div>
@@ -287,7 +154,6 @@ app.get('/', (req, res) => {
             <button class="btn-primary" onclick="switchTab('create')">+ Tạo phiếu mới</button>
           </div>
 
-          <!-- Bộ lọc & Tìm kiếm -->
           <div class="filter-bar">
             <input type="text" id="searchInput" placeholder="🔍 Tìm theo mã phiếu, tên khách hàng hoặc SĐT..." oninput="filterTickets()" />
             <select id="statusFilter" onchange="filterTickets()">
@@ -313,6 +179,7 @@ app.get('/', (req, res) => {
                   <th>THIẾT BỊ</th>
                   <th>SỰ CỐ & MÔ TẢ</th>
                   <th>ƯU TIÊN</th>
+                  <th>HẠN SLA</th>
                   <th>CẬP NHẬT TRẠNG THÁI</th>
                 </tr>
               </thead>
@@ -331,6 +198,7 @@ app.get('/', (req, res) => {
           </div>
 
           <div class="form-container">
+            <div id="formAlert" class="alert-box"></div>
             <form id="ticketForm" onsubmit="handleFormSubmit(event)">
               <div class="form-grid">
                 <div class="form-group">
@@ -338,12 +206,12 @@ app.get('/', (req, res) => {
                   <input type="text" id="custName" placeholder="Ví dụ: Võ Hoàng Phi Lân" required />
                 </div>
                 <div class="form-group">
-                  <label>Số điện thoại *</label>
+                  <label>Số điện thoại (10 số) *</label>
                   <input type="tel" id="custPhone" placeholder="Ví dụ: 0903999888" required />
                 </div>
                 <div class="form-group">
                   <label>Thông tin thiết bị (Model / IMEI) *</label>
-                  <input type="text" id="devInfo" placeholder="Ví dụ: iPhone 15 Pro Max..." required />
+                  <input type="text" id="devInfo" placeholder="Ví dụ: iPhone 15 Pro Max - IMEI 8899..." required />
                 </div>
                 <div class="form-group">
                   <label>Nhóm sự cố *</label>
@@ -354,15 +222,15 @@ app.get('/', (req, res) => {
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Mức độ ưu tiên</label>
+                  <label>Mức độ ưu tiên (Tự động tính SLA +24h / +48h)</label>
                   <select id="priority">
-                    <option value="Thường">Thường</option>
-                    <option value="Cao">Cao (Khẩn cấp)</option>
+                    <option value="Thường">Thường (SLA +48 giờ)</option>
+                    <option value="Cao">Cao / Khẩn cấp (SLA +24 giờ)</option>
                   </select>
                 </div>
                 <div class="form-group full-width">
-                  <label>Mô tả chi tiết sự cố</label>
-                  <textarea id="description" rows="4" placeholder="Mô tả tình trạng máy khi tiếp nhận..."></textarea>
+                  <label>Mô tả chi tiết sự cố (Tối thiểu 10 ký tự) *</label>
+                  <textarea id="description" rows="4" placeholder="Mô tả chi tiết tình trạng máy khi tiếp nhận (tối thiểu 10 ký tự)..." required></textarea>
                 </div>
               </div>
 
@@ -373,58 +241,76 @@ app.get('/', (req, res) => {
             </form>
           </div>
         </div>
-
       </div>
 
       <script>
         let allTicketsData = [];
 
-        // Chuyển đổi giữa các Trang (Tabs)
         function switchTab(tabName) {
           document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
           document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-
           document.getElementById('page-' + tabName).classList.add('active');
           document.getElementById('menu-' + tabName).classList.add('active');
+          document.getElementById('formAlert').style.display = 'none';
 
           if (tabName === 'overview' || tabName === 'tickets') {
             loadData();
           }
         }
 
-        // Fetch dữ liệu từ Backend
         async function loadData() {
-          const res = await fetch('/api/dashboard');
-          const { stats, recentTickets } = await res.json();
-          allTicketsData = recentTickets;
-
-          // Cập nhật thống kê
-          document.getElementById('stat-total').innerText = stats.total;
-          document.getElementById('stat-new').innerText = stats.new;
-          document.getElementById('stat-progress').innerText = stats.in_progress;
-          document.getElementById('stat-high').innerText = stats.high_priority;
-
-          // Render bảng Tổng quan
           const tbodyOverview = document.getElementById('ticket-table-body');
-          tbodyOverview.innerHTML = recentTickets.slice(0, 5).map(t => \`
-            <tr>
-              <td><strong>\${t.ticket_code}</strong></td>
-              <td>
-                <div style="font-weight: bold; color: #fff;">\${t.customer_name}</div>
-                <div style="font-size: 11px; color: #6b7280;">\${t.device_info}</div>
-              </td>
-              <td>\${t.issue_type}</td>
-              <td><span class="tag \${t.priority === 'Cao' ? 'tag-high' : 'tag-normal'}">\${t.priority}</span></td>
-              <td>
-                <span class="tag \${getStatusTagClass(t.status)}">
-                  \${t.status}
-                </span>
-              </td>
-              <td style="color: #9ca3af;">\${t.sla_deadline}</td>
-            </tr>
-          \`).join('');
+          const tbodyTickets = document.getElementById('full-ticket-table-body');
 
-          filterTickets();
+          // Trạng thái Đang tải (Loading State)
+          if (tbodyOverview) tbodyOverview.innerHTML = \`<tr><td colspan="6" style="text-align:center; padding: 25px; color: #3b82f6;">⏳ Đang tải dữ liệu hệ thống...</td></tr>\`;
+          if (tbodyTickets) tbodyTickets.innerHTML = \`<tr><td colspan="8" style="text-align:center; padding: 25px; color: #3b82f6;">⏳ Đang tải danh sách phiếu bảo hành...</td></tr>\`;
+
+          try {
+            const res = await fetch('/api/dashboard');
+            if (!res.ok) throw new Error('Không thể kết nối đến máy chủ API');
+            const data = await res.json();
+            
+            const stats = data.stats || { total: 0, new: 0, in_progress: 0, high_priority: 0 };
+            const recentTickets = data.recentTickets || [];
+            allTicketsData = recentTickets;
+
+            document.getElementById('stat-total').innerText = stats.total;
+            document.getElementById('stat-new').innerText = stats.new;
+            document.getElementById('stat-progress').innerText = stats.in_progress;
+            document.getElementById('stat-high').innerText = stats.high_priority;
+
+            // Trạng thái Rỗng (Ngữ cảnh 2a: Cơ sở dữ liệu chưa có phiếu nào)
+            if (recentTickets.length === 0) {
+              if (tbodyOverview) tbodyOverview.innerHTML = \`<tr><td colspan="6" style="text-align:center; padding: 30px; color: #9ca3af;">Hệ thống hiện chưa có phiếu bảo hành nào. <br><button class="btn-primary" style="margin-top:10px;" onclick="switchTab('create')">+ Tạo phiếu mới</button></td></tr>\`;
+            } else {
+              if (tbodyOverview) {
+                tbodyOverview.innerHTML = recentTickets.slice(0, 5).map(t => \`
+                  <tr>
+                    <td><strong>\${t.ticket_code}</strong></td>
+                    <td>
+                      <div style="font-weight: bold; color: #fff;">\${t.customer_name}</div>
+                      <div style="font-size: 11px; color: #6b7280;">\${t.device_info}</div>
+                    </td>
+                    <td>\${t.issue_type}</td>
+                    <td><span class="tag \${t.priority === 'Cao' ? 'tag-high' : 'tag-normal'}">\${t.priority}</span></td>
+                    <td><span class="tag \${getStatusTagClass(t.status)}">\${t.status}</span></td>
+                    <td style="color: #9ca3af;">\${t.sla_deadline || t.sla_due_date}</td>
+                  </tr>
+                \`).join('');
+              }
+            }
+
+            filterTickets();
+          } catch (err) {
+            // Trạng thái Lỗi kết nối kèm nút Thử lại (Error State & Retry)
+            const errorHtml = \`<tr><td colspan="8" style="text-align:center; padding: 30px; color: #f87171;">
+              ❌ Lỗi kết nối hệ thống: Không thể tải dữ liệu từ máy chủ.<br>
+              <button class="retry-btn" onclick="loadData()">🔄 Thử lại</button>
+            </td></tr>\`;
+            if (tbodyOverview) tbodyOverview.innerHTML = errorHtml;
+            if (tbodyTickets) tbodyTickets.innerHTML = errorHtml;
+          }
         }
 
         function getStatusTagClass(status) {
@@ -433,15 +319,14 @@ app.get('/', (req, res) => {
           return 'tag-status-new';
         }
 
-        // Lọc và Tìm kiếm trên trang Phiếu bảo hành
         function filterTickets() {
           const keyword = document.getElementById('searchInput').value.toLowerCase();
           const statusVal = document.getElementById('statusFilter').value;
           const priorityVal = document.getElementById('priorityFilter').value;
 
           const filtered = allTicketsData.filter(t => {
-            const matchKeyword = t.ticket_code.toLowerCase().includes(keyword) || 
-                                 t.customer_name.toLowerCase().includes(keyword) || 
+            const matchKeyword = (t.ticket_code && t.ticket_code.toLowerCase().includes(keyword)) ||
+                                 (t.customer_name && t.customer_name.toLowerCase().includes(keyword)) ||
                                  (t.phone && t.phone.includes(keyword));
             const matchStatus = !statusVal || t.status === statusVal;
             const matchPriority = !priorityVal || t.priority === priorityVal;
@@ -449,6 +334,13 @@ app.get('/', (req, res) => {
           });
 
           const tbodyTickets = document.getElementById('full-ticket-table-body');
+          
+          // Trạng thái Rỗng (Ngữ cảnh 2b: Bộ lọc / Tìm kiếm không khớp kết quả)
+          if (filtered.length === 0) {
+            tbodyTickets.innerHTML = \`<tr><td colspan="8" style="text-align:center; padding: 30px; color: #9ca3af;">Không tìm thấy phiếu bảo hành nào khớp với bộ lọc hiện tại.</td></tr>\`;
+            return;
+          }
+
           tbodyTickets.innerHTML = filtered.map(t => \`
             <tr>
               <td><strong>\${t.ticket_code}</strong></td>
@@ -457,9 +349,10 @@ app.get('/', (req, res) => {
               <td>\${t.device_info}</td>
               <td>
                 <div style="font-weight: 600;">\${t.issue_type}</div>
-                <div style="font-size: 11px; color: #6b7280;">\${t.description}</div>
+                <div style="font-size: 11px; color: #6b7280;">\${t.description || t.issue_description || ''}</div>
               </td>
               <td><span class="tag \${t.priority === 'Cao' ? 'tag-high' : 'tag-normal'}">\${t.priority}</span></td>
+              <td style="color: #9ca3af;">\${t.sla_deadline || t.sla_due_date}</td>
               <td>
                 <select class="select-status" onchange="updateTicketStatus(\${t.id}, this.value)">
                   <option value="Mới tiếp nhận" \${t.status === 'Mới tiếp nhận' ? 'selected' : ''}>Mới tiếp nhận</option>
@@ -471,7 +364,6 @@ app.get('/', (req, res) => {
           \`).join('');
         }
 
-        // Cập nhật trạng thái trực tiếp trên trang Phiếu bảo hành
         async function updateTicketStatus(id, newStatus) {
           await fetch('/api/tickets/' + id, {
             method: 'PATCH',
@@ -481,9 +373,9 @@ app.get('/', (req, res) => {
           loadData();
         }
 
-        // Xử lý gửi Form Tạo phiếu mới
         async function handleFormSubmit(event) {
           event.preventDefault();
+          const alertBox = document.getElementById('formAlert');
 
           const payload = {
             customer_name: document.getElementById('custName').value,
@@ -500,16 +392,21 @@ app.get('/', (req, res) => {
             body: JSON.stringify(payload)
           });
 
+          const result = await res.json();
+
           if (res.ok) {
-            alert('Đã tiếp nhận và tạo phiếu bảo hành thành công!');
+            alertBox.className = 'alert-box alert-success';
+            alertBox.style.display = 'block';
+            alertBox.innerText = '✅ Tạo phiếu thành công! Mã phiếu: ' + result.data.ticket_code + ' | Hạn SLA: ' + result.data.sla_deadline;
             document.getElementById('ticketForm').reset();
-            switchTab('tickets');
+            setTimeout(() => switchTab('tickets'), 1200);
           } else {
-            alert('Lỗi: Không thể tạo phiếu!');
+            alertBox.className = 'alert-box alert-error';
+            alertBox.style.display = 'block';
+            alertBox.innerText = '❌ Lỗi (' + res.status + '): ' + (result.message || 'Không thể tạo phiếu!');
           }
         }
 
-        // Khởi chạy mặc định
         loadData();
       </script>
     </body>
@@ -518,5 +415,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server local đang chạy tại: http://localhost:${PORT}`);
+  console.log('Server local đang chạy tại: http://localhost:' + PORT);
 });

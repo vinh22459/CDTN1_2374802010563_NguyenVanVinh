@@ -1,28 +1,51 @@
-<mxGraphModel dx="1201" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-  <root>
-    <mxCell id="0" />
-    <mxCell id="1" parent="0" />
-    <mxCell id="layer1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;" value="Presentation Layer&#xa;(HTML5 / CSS3 / JavaScript UI)" vertex="1">
-      <mxGeometry height="70" width="280" x="260" y="80" as="geometry" />
-    </mxCell>
-    <mxCell id="layer2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=12;" value="Business / Application Layer&#xa;(Node.js &amp; Express.js - Controllers / Services)" vertex="1">
-      <mxGeometry height="70" width="280" x="260" y="240" as="geometry" />
-    </mxCell>
-    <mxCell id="layer3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=12;" value="Data Access / Persistence Layer&lt;br&gt;(Node-postgres (pg) / PostgreSQL Database)" vertex="1">
-      <mxGeometry height="70" width="280" x="260" y="400" as="geometry" />
-    </mxCell>
-    <mxCell id="conn1" edge="1" parent="1" source="layer1" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontColor=#333333;fontSize=11;" target="layer2" value="HTTP RESTful API (JSON)&#xa;Async / Await">
-      <mxGeometry relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-    <mxCell id="conn2" edge="1" parent="1" source="layer2" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontColor=#333333;fontSize=11;" target="layer3" value="Mongoose ODM Queries&#xa;(TCP / IP Connection)">
-      <mxGeometry relative="1" as="geometry">
-        <mxPoint as="offset" />
-      </mxGeometry>
-    </mxCell>
-    <mxCell id="outOfScope" parent="1" style="shape=rectangle;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;fontStyle=0;fontSize=11;" value="PHẦN NGOÀI PHẠM VI (Out of Scope):&#xa;- Hệ thống thanh toán trực tuyến (VNPay/MoMo)&#xa;- Ứng dụng di động độc lập dành cho khách hàng&#xa;- AI tự động nhận diện lỗi qua hình ảnh hoặc SMS Gateway" vertex="1">
-      <mxGeometry height="120" width="240" x="580" y="215" as="geometry" />
-    </mxCell>
-  </root>
-</mxGraphModel>
+<mxfile host="app.diagrams.net">
+  <diagram name="Kien-Truc-Thuc-Te-BT2" id="mekong-mobile-arch-exact">
+    <mxGraphModel dx="1050" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="pres_box" value="&lt;b&gt;Presentation Layer (Frontend UI)&lt;/b&gt;&lt;br&gt;src/components/DataState.jsx · src/api/client.js&lt;br&gt;&lt;i&gt;(Hiển thị 3 màn hình &amp;amp; xử lý 3 trạng thái: Loading, Empty, Error)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1a1a;strokeColor=#b71c1c;strokeWidth=2;fontColor=#ffffff;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="40" width="400" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="backend_container" value="&lt;b&gt;Backend Server — Node.js + Express (src/server.js)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fdfbfb;strokeColor=#880e4f;strokeWidth=2;dashed=1;verticalAlign=top;align=left;spacingLeft=15;spacingTop=10;fontColor=#880e4f;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="130" y="165" width="560" height="365" as="geometry" />
+        </mxCell>
+
+        <mxCell id="route_box" value="&lt;b&gt;Routes / Controller Layer&lt;/b&gt;&lt;br&gt;src/routes/ticketRoutes.js&lt;br&gt;&lt;i&gt;(Xử lý HTTP req/res, trả mã trạng thái 200, 201, 400, 409)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;strokeWidth=1.5;fontColor=#212121;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="210" width="400" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="service_box" value="&lt;b&gt;Business Logic Layer (Services)&lt;/b&gt;&lt;br&gt;src/services/ticketService.js&lt;br&gt;&lt;i&gt;(Tính SLA, chặn trùng thiết bị, sinh mã phiếu — Không chứa HTTP)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f57f17;strokeWidth=1.5;fontColor=#212121;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="320" width="400" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="repo_box" value="&lt;b&gt;Data Access Layer (Repositories)&lt;/b&gt;&lt;br&gt;src/repositories/ticketRepository.js · src/config/db.js&lt;br&gt;&lt;i&gt;(Thực thi truy vấn SQL CRUD &amp;amp; Thống kê Dashboard)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#ad1457;strokeWidth=1.5;fontColor=#212121;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="435" width="400" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db_box" value="&lt;b&gt;Database &amp;amp; Khởi tạo dữ liệu&lt;/b&gt;&lt;br&gt;src/migrations/001_create_tables.sql&lt;br&gt;src/seeds/001_seed_data.sql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#263238;strokeColor=#b71c1c;strokeWidth=2;fontColor=#ffffff;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="580" width="400" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge1" value="HTTP REST API (src/api/client.js)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#b71c1c;strokeWidth=2;fontColor=#b71c1c;fontStyle=1;" edge="1" parent="1" source="pres_box" target="route_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge2" value="Gọi hàm nghiệp vụ (Pure JS Object)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#c62828;strokeWidth=1.5;" edge="1" parent="1" source="route_box" target="service_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge3" value="Gọi hàm truy xuất dữ liệu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#f57f17;strokeWidth=1.5;" edge="1" parent="1" source="service_box" target="repo_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge4" value="SQL Queries (qua src/config/db.js)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ad1457;strokeWidth=2;fontStyle=1;" edge="1" parent="1" source="repo_box" target="db_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
