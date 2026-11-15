@@ -23,7 +23,15 @@ router.get('/', async (req, res) => {
     res.status(error.statusCode || 500).json({ success: false, message: error.message });
   }
 });
-
+// Xóa phiếu bảo hành theo ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedTicket = await ticketService.deleteTicket(req.params.id);
+    res.status(200).json({ success: true, message: 'Đã xóa phiếu thành công', data: deletedTicket });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ success: false, error: error.message });
+  }
+});
 // 3. Tính năng: Tiếp nhận yêu cầu (Tạo phiếu mới)
 router.post('/', async (req, res) => {
   try {
@@ -49,5 +57,12 @@ router.patch('/:id', async (req, res) => {
     });
   }
 });
-
+router.delete('/tickets/:id', async (req, res) => {
+  try {
+    const result = await ticketService.deleteTicket(req.params.id);
+    res.json({ success: true, message: 'Đã xóa phiếu thành công', data: result });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ error: error.message });
+  }
+});
 module.exports = router;

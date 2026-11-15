@@ -9,10 +9,11 @@
     "issue_description": "Camera sau bị mờ không lấy nét được khi chụp gần",
     "ticket_code": "TKT-20261115-3611",
     "priority": "Cao",
-    "status": "Mới tiếp nhận",
+    "status": "Đã hủy",
     "sla_due_date": "2026-11-16T08:21:43.611Z",
     "sla_deadline": "15:21 16/11/2026",
-    "created_at": "15:21:43 15/11/2026"
+    "created_at": "15:21:43 15/11/2026",
+    "isDeleted": true
   },
   {
     "id": 18,
@@ -24,10 +25,11 @@
     "issue_description": "Máy bị sập nguồn đột ngột khi đang chạy tác vụ nặng",
     "ticket_code": "TKT-20261115-4633",
     "priority": "Siêu Cấp",
-    "status": "Mới tiếp nhận",
+    "status": "Đã hủy",
     "sla_due_date": "2026-11-17T08:20:24.633Z",
     "sla_deadline": "15:20 17/11/2026",
-    "created_at": "15:20:24 15/11/2026"
+    "created_at": "15:20:24 15/11/2026",
+    "isDeleted": true
   },
   {
     "id": 17,
@@ -114,10 +116,11 @@
     "issue_description": "kjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladdkjdaksdjdja;dl;sdladladd",
     "ticket_code": "TKT-20261115-8414",
     "priority": "Thường",
-    "status": "Mới tiếp nhận",
+    "status": "Đã hủy",
     "sla_due_date": "2026-11-17T07:53:28.414Z",
     "sla_deadline": "14:53 17/11/2026",
-    "created_at": "14:53:28 15/11/2026"
+    "created_at": "14:53:28 15/11/2026",
+    "isDeleted": true
   },
   {
     "id": 11,
@@ -129,10 +132,11 @@
     "issue_description": "cần trong kr432434",
     "ticket_code": "TKT-20261115-5269",
     "priority": "Thường",
-    "status": "Mới tiếp nhận",
+    "status": "Đã hủy",
     "sla_due_date": "2026-11-17T07:49:45.269Z",
     "sla_deadline": "14:49 17/11/2026",
-    "created_at": "14:49:45 15/11/2026"
+    "created_at": "14:49:45 15/11/2026",
+    "isDeleted": true
   },
   {
     "id": 10,

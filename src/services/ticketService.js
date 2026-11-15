@@ -1,16 +1,27 @@
+const fs = require('fs');
+const path = require('path');
 const ticketRepository = require('../repositories/ticketRepository');
 
 class TicketService {
-  // Logic lấy dữ liệu Tổng quan
+  // Logic lấy dữ liệu Tổng quan (chỉ tính các phiếu chưa xóa mềm)
   async getDashboardData() {
-    const stats = await ticketRepository.getDashboardStats();
-    const recentTickets = await ticketRepository.getRecentTickets(50);
+    const allTickets = await ticketRepository.getAllTickets({});
+    const activeTickets = Array.isArray(allTickets) ? allTickets.filter(t => !t.isDeleted) : [];
+    
+    const stats = {
+      total: activeTickets.length,
+      new: activeTickets.filter(t => t.status === 'Mới tiếp nhận').length,
+      in_progress: activeTickets.filter(t => t.status === 'Đang xử lý').length,
+      high_priority: activeTickets.filter(t => t.priority === 'Cao').length
+    };
+    const recentTickets = activeTickets.slice(0, 50);
     return { stats, recentTickets };
   }
 
-  // Logic lấy danh sách phiếu bảo hành
+  // Logic lấy danh sách phiếu bảo hành (lọc bỏ phiếu đã xóa mềm)
   async getTickets(filters = {}) {
-    return await ticketRepository.getAllTickets(filters);
+    const tickets = await ticketRepository.getAllTickets(filters);
+    return Array.isArray(tickets) ? tickets.filter(t => !t.isDeleted) : [];
   }
 
   // QUY TẮC NGHIỆP VỤ 1: Tự động tính hạn cam kết SLA theo mức độ ưu tiên
@@ -32,31 +43,57 @@ class TicketService {
     return `${hh}:${mm} ${dd}/${mo}/${yyyy}`;
   }
 
+  // Tính năng Xóa mềm phiếu bảo hành (Soft Delete)
+  async deleteTicket(id) {
+    const tickets = await ticketRepository.getAllTickets({});
+    const ticket = tickets.find(t => t.id === Number(id) || t.id === id);
+    
+    if (!ticket || ticket.isDeleted) {
+      const err = new Error('Không tìm thấy phiếu bảo hành để xóa');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    // Đánh dấu xóa mềm
+    ticket.isDeleted = true;
+    ticket.status = 'Đã hủy';
+
+    // Ghi đè lại vào file JSON để lưu trữ vĩnh viễn
+    const filePath = path.join(__dirname, '../config/tickets_data.json');
+    if (fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, JSON.stringify(tickets, null, 2), 'utf-8');
+    }
+
+    return ticket;
+  }
+
   // Logic kiểm tra hợp lệ, thực thi nghiệp vụ và khởi tạo ticket
   async createTicket(data) {
     const xssPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-if (xssPattern.test(data.customer_name) || xssPattern.test(data.issue_description)) {
-  const err = new Error('Phát hiện định dạng dữ liệu không hợp lệ hoặc chứa mã độc');
-  err.statusCode = 400;
-  throw err;
-}
+    if (xssPattern.test(data.customer_name) || xssPattern.test(data.issue_description)) {
+      const err = new Error('Phát hiện định dạng dữ liệu không hợp lệ hoặc chứa mã độc');
+      err.statusCode = 400;
+      throw err;
+    }
+
     const validPriorities = ['Thấp', 'Thường', 'Cao', 'Khẩn cấp'];
-if (data.priority && !validPriorities.includes(data.priority)) {
-  const err = new Error('Mức độ ưu tiên (priority) không hợp lệ');
-  err.statusCode = 400;
-  throw err;
-}
+    if (data.priority && !validPriorities.includes(data.priority)) {
+      const err = new Error('Mức độ ưu tiên (priority) không hợp lệ');
+      err.statusCode = 400;
+      throw err;
+    }
+
     if (data.issue_description && data.issue_description.trim().length > 500) {
-  const err = new Error('Mô tả sự cố không được vượt quá 500 ký tự');
-  err.statusCode = 400;
-  throw err;
-}
+      const err = new Error('Mô tả sự cố không được vượt quá 500 ký tự');
+      err.statusCode = 400;
+      throw err;
+    }
+
     if (!data || typeof data !== 'object') {
       const err = new Error('Dữ liệu đầu vào không hợp lệ');
       err.statusCode = 400;
       throw err;
     }
-    
 
     const customerName = (data.customer_name || data.customerName || '').trim();
     const phone = (data.phone || '').trim();
@@ -88,10 +125,11 @@ if (data.priority && !validPriorities.includes(data.priority)) {
       throw err;
     }
 
-    // QUY TẮC NGHIỆP VỤ 2: Chặn trùng thiết bị đang trong tiến trình xử lý
+    // QUY TẮC NGHIỆP VỤ 2: Chặn trùng thiết bị đang trong tiến trình xử lý (chỉ xét các phiếu chưa xóa)
     const existingTickets = await ticketRepository.getAllTickets({});
     if (Array.isArray(existingTickets)) {
       const activeDuplicate = existingTickets.find((t) => {
+        if (t.isDeleted) return false;
         const existingDevice = (t.device_info || t.deviceName || t.serial_number || '').trim().toLowerCase();
         const isProcessing = ['PENDING', 'PROCESSING', 'Mới tiếp nhận', 'Đang xử lý'].includes(t.status);
         return existingDevice === deviceInfo.toLowerCase() && isProcessing;
@@ -122,7 +160,8 @@ if (data.priority && !validPriorities.includes(data.priority)) {
       priority,
       status: data.status || 'Mới tiếp nhận',
       sla_due_date: slaDueDate,
-      sla_deadline: slaDeadlineDisplay
+      sla_deadline: slaDeadlineDisplay,
+      isDeleted: false
     };
 
     const ticketId = await ticketRepository.createTicket(newTicket);
