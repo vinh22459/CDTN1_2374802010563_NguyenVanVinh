@@ -16,3 +16,7 @@ Gợi ý cho BT2:
 - Chèn ảnh xuất từ usecase_l2.drawio và erd.drawio (kèm chú thích) vào tài liệu, viết đủ US1–US7 có tiêu chí chấp nhận để làm cơ sở viết test.
 
 Em đã tiếp thu và hoàn thiện đầy đủ các điểm theo feedback của thầy (cập nhật hình ảnh sơ đồ Use Case/ERD vào file PDF, bổ sung chi tiết nội dung User Stories US1–US7, hoàn thiện các yêu cầu phi chức năng gắn ngưỡng, bổ sung chú thích sơ đồ kiến trúc kèm phần 'Ngoài phạm vi', cũng như cập nhật file .env.example, .env và API Contract lên Git). Em xin gửi lại bài nộp hoàn chỉnh ạ.
+Nhận xét Bài tập 2 – Nguyễn Văn Vinh (2374802010563)
+Điểm mạnh: Service thuần không có dấu vết HTTP, quy tắc SLA theo mức ưu tiên và chặn trùng thiết bị đang xử lý (409), migration/seed, 5 kiểm thử đủ ba loại, có ảnh ba trạng thái.
+Cần khắc phục: Mới có CRUD cho phiếu (chưa có thao tác xoá, chưa có thực thể thứ hai) (S1). Giao diện một trang, chưa đủ 3 màn hình (S4). Chưa có đăng nhập. Lịch sử commit chỉ 5 lần trong 2 ngày.
+Mục kiểm chứng (bảng 4.2) chưa đạt: S1 (mới CRUD phiếu, chưa có thực thể thứ hai, chưa có xoá); S4 (giao diện 1 trang, chưa đủ 3 màn hình).
