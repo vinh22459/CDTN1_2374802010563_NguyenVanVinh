@@ -34,6 +34,12 @@ class TicketService {
 
   // Logic kiểm tra hợp lệ, thực thi nghiệp vụ và khởi tạo ticket
   async createTicket(data) {
+    const xssPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+if (xssPattern.test(data.customer_name) || xssPattern.test(data.issue_description)) {
+  const err = new Error('Phát hiện định dạng dữ liệu không hợp lệ hoặc chứa mã độc');
+  err.statusCode = 400;
+  throw err;
+}
     const validPriorities = ['Thấp', 'Thường', 'Cao', 'Khẩn cấp'];
 if (data.priority && !validPriorities.includes(data.priority)) {
   const err = new Error('Mức độ ưu tiên (priority) không hợp lệ');
