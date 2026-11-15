@@ -69,38 +69,41 @@ class TicketService {
 
   // Logic kiểm tra hợp lệ, thực thi nghiệp vụ và khởi tạo ticket
   async createTicket(data) {
-    const xssPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-    if (xssPattern.test(data.customer_name) || xssPattern.test(data.issue_description)) {
-      const err = new Error('Phát hiện định dạng dữ liệu không hợp lệ hoặc chứa mã độc');
-      err.statusCode = 400;
-      throw err;
-    }
-
-    const validPriorities = ['Thấp', 'Thường', 'Cao', 'Khẩn cấp'];
-    if (data.priority && !validPriorities.includes(data.priority)) {
-      const err = new Error('Mức độ ưu tiên (priority) không hợp lệ');
-      err.statusCode = 400;
-      throw err;
-    }
-
-    if (data.issue_description && data.issue_description.trim().length > 500) {
-      const err = new Error('Mô tả sự cố không được vượt quá 500 ký tự');
-      err.statusCode = 400;
-      throw err;
-    }
-
     if (!data || typeof data !== 'object') {
       const err = new Error('Dữ liệu đầu vào không hợp lệ');
       err.statusCode = 400;
       throw err;
     }
 
-    const customerName = (data.customer_name || data.customerName || '').trim();
-    const phone = (data.phone || '').trim();
-    const deviceInfo = (data.device_info || data.deviceName || data.serialNumber || '').trim();
-    const issueType = (data.issue_type || data.category || 'Lỗi phần cứng').trim();
-    const issueDesc = (data.issue_description || data.description || data.issueDescription || '').trim();
+    // 1. Gom và chuẩn hóa toàn bộ trường dữ liệu ngay từ đầu (hỗ trợ cả Web và Unit Test)
+    const customerName = String(data.customer_name || data.customerName || '').trim();
+    const phone = String(data.phone || '').trim();
+    const deviceInfo = String(data.device_info || data.deviceName || data.serialNumber || '').trim();
+    const issueType = String(data.issue_type || data.category || 'Lỗi phần cứng').trim();
+    const issueDesc = String(data.issue_description || data.description || data.issueDescription || '').trim();
 
+    // 2. Kiểm tra XSS trên tất cả các trường văn bản (Fix BUG-03 / TC-08) - Bỏ cờ /g để tránh lỗi lastIndex
+    const xssPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|<\/?[a-z][\s\S]*>/i;
+    if (
+      xssPattern.test(customerName) ||
+      xssPattern.test(deviceInfo) ||
+      xssPattern.test(issueDesc) ||
+      xssPattern.test(issueType)
+    ) {
+      const err = new Error('Phát hiện định dạng dữ liệu không hợp lệ hoặc chứa mã độc XSS');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    // 3. Kiểm tra danh mục mức độ ưu tiên (Fix BUG-02 / TC-07)
+    const validPriorities = ['Thấp', 'Thường', 'Cao', 'Khẩn cấp'];
+    if (data.priority !== undefined && data.priority !== '' && !validPriorities.includes(data.priority)) {
+      const err = new Error('Mức độ ưu tiên (priority) không hợp lệ');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    // 4. Kiểm tra các trường bắt buộc (TC-04)
     if (!customerName || !phone || !deviceInfo) {
       const missing = [];
       if (!customerName) missing.push('customer_name');
@@ -111,21 +114,27 @@ class TicketService {
       throw err;
     }
 
-    // Kiểm tra định dạng số điện thoại 10 chữ số
+    // 5. Kiểm tra định dạng số điện thoại 10 chữ số
     if (!/^\d{10}$/.test(phone)) {
       const err = new Error('Số điện thoại không hợp lệ (phải gồm đúng 10 chữ số)');
       err.statusCode = 400;
       throw err;
     }
 
-    // Kiểm tra Giá trị biên: Mô tả lỗi tối thiểu 10 ký tự
+    // 6. Kiểm tra Giá trị biên dưới (< 10 ký tự - TC-03) và biên trên (> 500 ký tự - Fix BUG-01 / TC-06)
     if (issueDesc.length < 10) {
       const err = new Error('Mô tả chi tiết sự cố phải có tối thiểu 10 ký tự');
       err.statusCode = 400;
       throw err;
     }
 
-    // QUY TẮC NGHIỆP VỤ 2: Chặn trùng thiết bị đang trong tiến trình xử lý (chỉ xét các phiếu chưa xóa)
+    if (issueDesc.length > 500) {
+      const err = new Error('Mô tả sự cố không được vượt quá 500 ký tự');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    // 7. QUY TẮC NGHIỆP VỤ 2: Chặn trùng thiết bị đang trong tiến trình xử lý (TC-05 & TC-09)
     const existingTickets = await ticketRepository.getAllTickets({});
     if (Array.isArray(existingTickets)) {
       const activeDuplicate = existingTickets.find((t) => {

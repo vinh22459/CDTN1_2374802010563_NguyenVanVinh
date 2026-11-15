@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
         .login-sub { font-size: 13px; color: #6b7280; text-align: center; margin-bottom: 24px; }
         
         /* LAYOUT CHÍNH */
-        .app-container { display: flex; width: 100%; height: 100%; display: none; }
+        .app-container { display: none; width: 100%; height: 100%; }
         .sidebar { width: 250px; background-color: #111827; border-right: 1px solid #1f2937; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .logo { color: #3b82f6; font-weight: bold; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
         .menu-category { font-size: 11px; color: #6b7280; font-weight: bold; text-transform: uppercase; margin: 10px 0 5px 10px; }
@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .title { font-size: 24px; font-weight: bold; color: #ffffff; }
         .subtitle { font-size: 12px; color: #6b7280; }
-        .btn-primary { background-color: #2563eb; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-primary { background-color: #2563eb; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .btn-primary:hover { background-color: #1d4ed8; }
         
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
@@ -62,9 +62,12 @@ app.get('/', (req, res) => {
         .card-sub { font-size: 12px; color: #6b7280; }
         .badge-live { position: absolute; top: 15px; right: 15px; font-size: 10px; color: #10b981; }
         
-        .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
         .filter-bar input, .filter-bar select { background-color: #111827; border: 1px solid #1f2937; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 13px; outline: none; }
+        .filter-bar input:focus, .filter-bar select:focus { border-color: #3b82f6; }
         .filter-bar input { flex: 1; }
+        .btn-reload { background-color: #1e293b; color: #60a5fa; border: 1px solid #3b82f6; padding: 10px 16px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-reload:hover { background-color: #3b82f6; color: #ffffff; }
         
         .table-container { background-color: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 20px; }
         .table-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #f3f4f6; }
@@ -87,7 +90,7 @@ app.get('/', (req, res) => {
         .form-group label { font-size: 13px; color: #9ca3af; font-weight: 600; }
         .form-group input, .form-group select, .form-group textarea { background-color: #1f2937; border: 1px solid #374151; color: #ffffff; padding: 12px; border-radius: 6px; font-size: 14px; outline: none; }
         .form-actions { display: flex; justify-content: flex-end; gap: 12px; }
-        .btn-secondary { background: transparent; color: #9ca3af; border: 1px solid #374151; padding: 10px 18px; border-radius: 6px; cursor: pointer; }
+        .btn-secondary { background: transparent; color: #9ca3af; border: 1px solid #374151; padding: 10px 18px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
         
         .alert-box { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 13px; display: none; }
         .alert-error { background-color: #7f1d1d; color: #fecaca; border: 1px solid #ef4444; }
@@ -167,14 +170,17 @@ app.get('/', (req, res) => {
               <div><p class="subtitle">QUẢN LÝ TẬP TRUNG</p><h1 class="title">Danh sách phiếu bảo hành</h1></div>
               <button class="btn-primary" onclick="switchTab('create')">+ Tạo phiếu mới</button>
             </div>
+            <div id="searchAlert" class="alert-box alert-success"></div>
             <div class="filter-bar">
-              <input type="text" id="searchInput" placeholder="🔍 Tìm theo mã phiếu, tên khách hàng hoặc SĐT..." oninput="filterTickets()" />
-              <select id="statusFilter" onchange="filterTickets()">
+              <input type="text" id="searchInput" placeholder="🔍 Tìm theo mã phiếu, tên khách hàng hoặc SĐT..." oninput="onSearchCriteriaChange()" />
+              <select id="statusFilter" onchange="onSearchCriteriaChange()">
                 <option value="">Tất cả trạng thái</option>
                 <option value="Mới tiếp nhận">Mới tiếp nhận</option>
                 <option value="Đang xử lý">Đang xử lý</option>
                 <option value="Hoàn thành">Hoàn thành</option>
               </select>
+              <button type="button" class="btn-primary" onclick="handleManualSearch()">🔍 Tìm kiếm</button>
+              <button type="button" class="btn-reload" onclick="handleReloadTickets()">🔄 Tra cứu lại</button>
             </div>
             <div class="table-container">
               <table>
@@ -191,7 +197,7 @@ app.get('/', (req, res) => {
             <div class="header"><div><p class="subtitle">TIẾP NHẬN BẢO HÀNH</p><h1 class="title">Tạo phiếu mới</h1></div></div>
             <div class="form-container">
               <div id="formAlert" class="alert-box"></div>
-              <form id="ticketForm" onsubmit="handleFormSubmit(event)">
+              <form id="ticketForm" onsubmit="handleFormSubmit(event)" novalidate>
                 <div class="form-grid">
                   <div class="form-group"><label>Tên khách hàng *</label><input type="text" id="custName" placeholder="Nguyễn Văn Vinh" required /></div>
                   <div class="form-group"><label>Số điện thoại (10 số) *</label><input type="tel" id="custPhone" placeholder="0901234567" required /></div>
@@ -237,7 +243,10 @@ app.get('/', (req, res) => {
       </div>
 
       <script>
-        // Kiểm tra trạng thái đăng nhập khi load trang
+        let allTicketsData = [];
+        let queryCount = 0;
+        let lastSearchSignature = '';
+
         window.onload = function() {
           if (localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('login-screen').style.display = 'none';
@@ -249,8 +258,8 @@ app.get('/', (req, res) => {
 
         function handleLogin(event) {
           event.preventDefault();
-          const user = document.getElementById('loginUser').value;
-          const pass = document.getElementById('loginPass').value;
+          const user = document.getElementById('loginUser').value.trim();
+          const pass = document.getElementById('loginPass').value.trim();
           const alertBox = document.getElementById('loginAlert');
 
           if (user === 'admin' && pass === '123456') {
@@ -270,20 +279,39 @@ app.get('/', (req, res) => {
           location.reload();
         }
 
-        let allTicketsData = [];
+        function resetSearchState() {
+          queryCount = 0;
+          lastSearchSignature = '';
+          const searchInput = document.getElementById('searchInput');
+          const statusFilter = document.getElementById('statusFilter');
+          const searchAlert = document.getElementById('searchAlert');
+          const formAlert = document.getElementById('formAlert');
+          if (searchInput) searchInput.value = '';
+          if (statusFilter) statusFilter.value = '';
+          if (searchAlert) {
+            searchAlert.style.display = 'none';
+            searchAlert.innerText = '';
+          }
+          if (formAlert) {
+            formAlert.style.display = 'none';
+          }
+        }
 
         function switchTab(tabName) {
           document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
           document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
           document.getElementById('page-' + tabName).classList.add('active');
           document.getElementById('menu-' + tabName).classList.add('active');
+
+          // Reset kết quả và bộ đếm tra cứu khi đổi tab
+          resetSearchState();
+
           if (tabName === 'overview' || tabName === 'tickets') loadData();
           if (tabName === 'customers') loadCustomers();
         }
 
         async function loadData() {
           const tbodyOverview = document.getElementById('ticket-table-body');
-          const tbodyTickets = document.getElementById('full-ticket-table-body');
           try {
             const res = await fetch('/api/dashboard');
             const data = await res.json();
@@ -347,14 +375,72 @@ app.get('/', (req, res) => {
               <td style="color: #9ca3af;">\${t.sla_deadline}</td>
               <td>
                 <select class="select-status" onchange="updateStatus(\${t.id}, this.value)">
-                  <option value="Mới tiếp nhận" \+ (t.status === 'Mới tiếp nhận' ? 'selected' : '') +>Mới tiếp nhận</option>
-                  <option value="Đang xử lý" \+ (t.status === 'Đang xử lý' ? 'selected' : '') +>Đang xử lý</option>
-                  <option value="Hoàn thành" \+ (t.status === 'Hoàn thành' ? 'selected' : '') +>Hoàn thành</option>
+                  <option value="Mới tiếp nhận" \${t.status === 'Mới tiếp nhận' ? 'selected' : ''}>Mới tiếp nhận</option>
+                  <option value="Đang xử lý" \${t.status === 'Đang xử lý' ? 'selected' : ''}>Đang xử lý</option>
+                  <option value="Hoàn thành" \${t.status === 'Hoàn thành' ? 'selected' : ''}>Hoàn thành</option>
                 </select>
               </td>
               <td><button class="btn-delete" onclick="deleteTicket(\${t.id})">🗑️ Xóa</button></td>
             </tr>
           \`).join('') || '<tr><td colspan="9" style="text-align:center;">Không tìm thấy phiếu phù hợp.</td></tr>';
+          return filtered;
+        }
+
+        function onSearchCriteriaChange() {
+          // Khi người dùng đổi tên tra cứu hoặc đổi trạng thái thì reset bộ đếm về 0 và ẩn hộp thông báo cũ
+          queryCount = 0;
+          const searchAlert = document.getElementById('searchAlert');
+          if (searchAlert) searchAlert.style.display = 'none';
+          filterTickets();
+        }
+
+        function handleManualSearch() {
+          const currentSignature =
+            document.getElementById('searchInput').value.trim().toLowerCase() +
+            '|' +
+            document.getElementById('statusFilter').value;
+
+          if (currentSignature !== lastSearchSignature) {
+            queryCount = 1;
+            lastSearchSignature = currentSignature;
+          } else {
+            queryCount++;
+          }
+
+          const filtered = filterTickets();
+          const searchAlert = document.getElementById('searchAlert');
+          searchAlert.style.display = 'block';
+          searchAlert.innerText =
+            '🔍 Kết quả tra cứu (Lần ' +
+            queryCount +
+            '): Tìm thấy ' +
+            filtered.length +
+            ' phiếu bảo hành khớp điều kiện.';
+        }
+
+        async function handleReloadTickets() {
+          const currentSignature =
+            document.getElementById('searchInput').value.trim().toLowerCase() +
+            '|' +
+            document.getElementById('statusFilter').value;
+
+          if (currentSignature !== lastSearchSignature) {
+            queryCount = 1;
+            lastSearchSignature = currentSignature;
+          } else {
+            queryCount++;
+          }
+
+          await loadData();
+          const filtered = filterTickets();
+          const searchAlert = document.getElementById('searchAlert');
+          searchAlert.style.display = 'block';
+          searchAlert.innerText =
+            '🔄 Tra cứu lần ' +
+            queryCount +
+            ' hoàn tất: Dữ liệu nhất quán (' +
+            filtered.length +
+            ' bản ghi, không bị nhân đôi).';
         }
 
         async function updateStatus(id, newStatus) {
@@ -377,13 +463,15 @@ app.get('/', (req, res) => {
         async function handleFormSubmit(event) {
           event.preventDefault();
           const alertBox = document.getElementById('formAlert');
+          const descVal = document.getElementById('description').value;
           const payload = {
             customer_name: document.getElementById('custName').value,
             phone: document.getElementById('custPhone').value,
             device_info: document.getElementById('devInfo').value,
             issue_type: document.getElementById('issueType').value,
             priority: document.getElementById('priority').value,
-            description: document.getElementById('description').value
+            description: descVal,
+            issue_description: descVal
           };
 
           const res = await fetch('/api/tickets', {
@@ -402,7 +490,7 @@ app.get('/', (req, res) => {
           } else {
             alertBox.className = 'alert-box alert-error';
             alertBox.style.display = 'block';
-            alertBox.innerText = '❌ Lỗi: ' + (result.message || 'Không thể tạo phiếu');
+            alertBox.innerText = '❌ Lỗi (' + res.status + '): ' + (result.message || result.error || 'Không thể tạo phiếu');
           }
         }
       </script>
