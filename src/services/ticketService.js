@@ -34,6 +34,12 @@ class TicketService {
 
   // Logic kiểm tra hợp lệ, thực thi nghiệp vụ và khởi tạo ticket
   async createTicket(data) {
+    const validPriorities = ['Thấp', 'Thường', 'Cao', 'Khẩn cấp'];
+if (data.priority && !validPriorities.includes(data.priority)) {
+  const err = new Error('Mức độ ưu tiên (priority) không hợp lệ');
+  err.statusCode = 400;
+  throw err;
+}
     if (data.issue_description && data.issue_description.trim().length > 500) {
   const err = new Error('Mô tả sự cố không được vượt quá 500 ký tự');
   err.statusCode = 400;
